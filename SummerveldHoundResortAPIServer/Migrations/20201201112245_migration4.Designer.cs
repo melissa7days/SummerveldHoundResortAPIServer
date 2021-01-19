@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SummerveldHoundResortAPIServer.Data;
 
 namespace SummerveldHoundResortAPIServer.Migrations
 {
     [DbContext(typeof(DoggoDataContext))]
-    partial class DoggoDataContextModelSnapshot : ModelSnapshot
+    [Migration("20201201112245_migration4")]
+    partial class migration4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,8 +74,8 @@ namespace SummerveldHoundResortAPIServer.Migrations
                     b.Property<string>("IconSrcUrl")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("LifeEventDate")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                    b.Property<DateTime>("LifeEventDate")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("LifeEventDateCreated")
                         .HasColumnType("datetime(6)");

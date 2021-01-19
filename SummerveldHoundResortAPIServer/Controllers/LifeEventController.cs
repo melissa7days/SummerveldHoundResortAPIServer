@@ -22,14 +22,14 @@ namespace SummerveldHoundResortAPIServer.Controllers
             _context = context;
         }
 
-        //http://localhost:50367/api/lifeevent 
+        //http://localhost:50367/api/lifeevent   
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LifeEvent>>> GetlifeEvent()
         {
             return await _context.lifeEvent.ToListAsync();
         }
 
-        //http://localhost:55928/api/LifeEvent/getAllLifeEvents
+        //http://localhost:50367/api/lifeevent/getAllLifeEvents
         [HttpGet]
         [Route("getAllLifeEvents")]
         public async Task<ActionResult<IEnumerable<LifeEventViewModel>>> getAllLifeEvents()
@@ -37,12 +37,20 @@ namespace SummerveldHoundResortAPIServer.Controllers
             return await _context.lifeEventViewModel.FromSqlInterpolated($"CALL getAllLifeEvents").ToListAsync();
         }
 
-        //http://localhost:50367/api/lifeevent/getLifeEventById?doggoId=
+        //http://localhost:50367/api/lifeevent/getLifeEventById?lifeEventId=
         [HttpGet]
         [Route("getLifeEventById")]
-        public async Task<ActionResult<IEnumerable<LifeEvent>>> getLifeEventById(int doggoId)
+        public async Task<ActionResult<IEnumerable<LifeEventViewModel>>> getLifeEventById(int lifeEventId)
         {
-            return await _context.lifeEvent.FromSqlInterpolated($"CALL getLifeEventById({doggoId})").ToListAsync();
+            return await _context.lifeEventViewModel.FromSqlInterpolated($"CALL getLifeEventById({lifeEventId})").ToListAsync();
+        }
+
+        //http://localhost:50367/api/lifeevent/getLifeEventByDoggoId?doggoId=
+        [HttpGet]
+        [Route("getLifeEventByDoggoId")]
+        public async Task<ActionResult<IEnumerable<LifeEventViewModel>>> getLifeEventByDoggoId(int doggoId)
+        {
+            return await _context.lifeEventViewModel.FromSqlInterpolated($"CALL getLifeEventById({doggoId})").ToListAsync();
         }
 
         //http://localhost:50367/api/lifeevent?id=
@@ -75,7 +83,7 @@ namespace SummerveldHoundResortAPIServer.Controllers
             return NoContent();
         }
 
-        //http://localhost:55928/api/lifeevent
+        //http://localhost:50367/api/lifeevent
         [HttpPost]
         public async Task<ActionResult<LifeEvent>> PostLifeEvent(LifeEvent lifeEvent)
         {
@@ -85,7 +93,7 @@ namespace SummerveldHoundResortAPIServer.Controllers
             return CreatedAtAction("GetLifeEvent", new { id = lifeEvent.LifeEventId }, lifeEvent);
         }
 
-        //http://localhost:55928/api/lifeevent?id=
+        //http://localhost:50367/api/lifeevent?id=
         [HttpDelete]
         public async Task<ActionResult<LifeEvent>> DeleteLifeEvent(int id)
         {

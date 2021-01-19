@@ -21,25 +21,19 @@ namespace SummerveldHoundResortAPIServer.Controllers
             _context = context;
         }
 
-        // GET: api/VirtualAdoption
+        //http://localhost:50367/api/virtualadoption/
         [HttpGet]
         public async Task<ActionResult<IEnumerable<VirtualAdoption>>> GetvirtualAdoption()
         {
             return await _context.virtualAdoption.ToListAsync();
         }
 
-        // GET: api/VirtualAdoption/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<VirtualAdoption>> GetVirtualAdoption(int id)
+        //http://localhost:50367/api/virtualadoption/getVirtualAdoptionByDoggoId?doggoId=
+        [HttpGet]
+        [Route("getVirtualAdoptionByDoggoId")]
+        public async Task<ActionResult<IEnumerable<VirtualAdoption>>> getDoggoById(int doggoId)
         {
-            var virtualAdoption = await _context.virtualAdoption.FindAsync(id);
-
-            if (virtualAdoption == null)
-            {
-                return NotFound();
-            }
-
-            return virtualAdoption;
+            return await _context.virtualAdoption.FromSqlInterpolated($"CALL getVirtualAdoptionByDoggoId({doggoId})").ToListAsync();
         }
 
         // PUT: api/VirtualAdoption/5

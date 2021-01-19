@@ -21,37 +21,31 @@ namespace SummerveldHoundResortAPIServer.Controllers
             _context = context;
         }
 
-        // GET: api/DoggoAlbum
+        //http://localhost:50367/api/doggoalbum        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DoggoAlbum>>> GetdoggoAlbum()
         {
             return await _context.doggoAlbum.ToListAsync();
         }
 
-        // GET: api/DoggoAlbum/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<DoggoAlbum>> GetDoggoAlbum(int id)
+        //http://localhost:50367/api/doggoalbum/getDoggoAlbumById?doggoAlbumId=
+        [HttpGet]
+        [Route("getDoggoAlbumById")]
+        public async Task<ActionResult<IEnumerable<DoggoAlbum>>> getDoggoById(int doggoAlbumId)
         {
-            var doggoAlbum = await _context.doggoAlbum.FindAsync(id);
-
-            if (doggoAlbum == null)
-            {
-                return NotFound();
-            }
-
-            return doggoAlbum;
+            return await _context.doggoAlbum.FromSqlInterpolated($"CALL getDoggoAlbumById({doggoAlbumId})").ToListAsync();
         }
 
-        // PUT: api/DoggoAlbum/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
+        //http://localhost:50367/api/doggoalbum?id=   
+        [HttpPut]
         public async Task<IActionResult> PutDoggoAlbum(int id, DoggoAlbum doggoAlbum)
         {
             if (id != doggoAlbum.DoggoAlbumId)
             {
                 return BadRequest();
             }
+            doggoAlbum.DoggoAlbumDateCreated = DateTime.Now;
+
 
             _context.Entry(doggoAlbum).State = EntityState.Modified;
 
@@ -74,20 +68,20 @@ namespace SummerveldHoundResortAPIServer.Controllers
             return NoContent();
         }
 
-        // POST: api/DoggoAlbum
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        //http://localhost:55928/api/doggoalbum
         [HttpPost]
         public async Task<ActionResult<DoggoAlbum>> PostDoggoAlbum(DoggoAlbum doggoAlbum)
         {
+            doggoAlbum.DoggoAlbumDateCreated = DateTime.Now;
+
             _context.doggoAlbum.Add(doggoAlbum);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetDoggoAlbum", new { id = doggoAlbum.DoggoAlbumId }, doggoAlbum);
         }
 
-        // DELETE: api/DoggoAlbum/5
-        [HttpDelete("{id}")]
+        //http://localhost:55928/api/doggo?id=
+        [HttpDelete]
         public async Task<ActionResult<DoggoAlbum>> DeleteDoggoAlbum(int id)
         {
             var doggoAlbum = await _context.doggoAlbum.FindAsync(id);

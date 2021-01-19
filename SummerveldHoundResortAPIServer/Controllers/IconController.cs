@@ -21,31 +21,23 @@ namespace SummerveldHoundResortAPIServer.Controllers
             _context = context;
         }
 
-        // GET: api/Icon
+        //http://localhost:50367/api/icon 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Icon>>> Geticon()
         {
             return await _context.icon.ToListAsync();
         }
 
-        // GET: api/Icon/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Icon>> GetIcon(int id)
+        //http://localhost:50367/api/icon/getIconById?iconId=
+        [HttpGet]
+        [Route("getIconById")]
+        public async Task<ActionResult<IEnumerable<Icon>>> getIconById(int iconId)
         {
-            var icon = await _context.icon.FindAsync(id);
-
-            if (icon == null)
-            {
-                return NotFound();
-            }
-
-            return icon;
+            return await _context.icon.FromSqlInterpolated($"CALL getIconById({iconId})").ToListAsync();
         }
 
-        // PUT: api/Icon/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
+        //http://localhost:50367/api/icon?id=
+        [HttpPut]
         public async Task<IActionResult> PutIcon(int id, Icon icon)
         {
             if (id != icon.IconId)
@@ -74,9 +66,7 @@ namespace SummerveldHoundResortAPIServer.Controllers
             return NoContent();
         }
 
-        // POST: api/Icon
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        //http://localhost:55928/api/icon
         [HttpPost]
         public async Task<ActionResult<Icon>> PostIcon(Icon icon)
         {
@@ -86,8 +76,8 @@ namespace SummerveldHoundResortAPIServer.Controllers
             return CreatedAtAction("GetIcon", new { id = icon.IconId }, icon);
         }
 
-        // DELETE: api/Icon/5
-        [HttpDelete("{id}")]
+        //http://localhost:55928/api/icon?id=
+        [HttpDelete]
         public async Task<ActionResult<Icon>> DeleteIcon(int id)
         {
             var icon = await _context.icon.FindAsync(id);

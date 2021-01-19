@@ -16,7 +16,7 @@ namespace SummerveldHoundResortAPIServer.Models
         [ForeignKey("Icon")]
         public int IconId { get; set; }
         public string LifeEventName { get; set; }
-        public DateTime LifeEventDate { get; set; }
+        public string LifeEventDate { get; set; }
         public DateTime LifeEventDateCreated { get; set; }
         public virtual Doggo Doggo { get; set; }
         public virtual Icon Icon { get; set; }

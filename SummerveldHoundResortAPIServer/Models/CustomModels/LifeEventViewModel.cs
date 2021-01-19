@@ -13,7 +13,7 @@ namespace SummerveldHoundResortAPIServer.Models.CustomModels
         public int DoggoId { get; set; }
         public int IconId { get; set; }
         public string LifeEventName { get; set; }
-        public DateTime LifeEventDate { get; set; }
+        public string LifeEventDate { get; set; }
         public DateTime LifeEventDateCreated { get; set; }
         public string DoggoName { get; set; }
         public string DoggoProfilePic { get; set; }
@@ -21,5 +21,9 @@ namespace SummerveldHoundResortAPIServer.Models.CustomModels
         public string DoggoNickname { get; set; }
         public DateTime DoggoDateCreated { get; set; }
         public string IconSrcUrl { get; set; }
+
+
+
+          
     }
 }
